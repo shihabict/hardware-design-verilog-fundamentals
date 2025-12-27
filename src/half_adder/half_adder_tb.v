@@ -9,19 +9,20 @@ wire carry;
 half_adder dut(.A(a), .B(b), .sum(sum), .carry(carry));
 
 initial begin
-    $dumpfile("half_adder.vcd");
-    $dumpvars(0, half_adder_tb);
 
+    a = 1'b0; b=1'b0; 
+    #10 a = 1'b0; b=1'b1;
+    #10 a = 1'b1; b=1'b0;
+    #10 a = 1'b1; b=1'b1;
 
-    $display("A B | Sum Carry");
-    $display("----------------");
-
-    a = 0; b=0; #10; $display("%b %b | %b   %b", a, b, sum, carry);
-    a = 0; b=1; #10; $display("%b %b | %b   %b", a, b, sum, carry);
-    a = 1; b=0; #10; $display("%b %b | %b   %b", a, b, sum, carry);
-    a = 1; b=1; #10; $display("%b %b | %b   %b", a, b, sum, carry);
-
-    $finish;
 end
+
+initial begin
+    $monitor($time, " a=%b b=%b | sum=%b   carry=%b", a, b, sum, carry);
+end;
+
+initial begin
+    $dumpfile("half_adder.vcd"); $dumpvars; end;
+
 
 endmodule
